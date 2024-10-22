@@ -1,6 +1,6 @@
 import { stripe } from '../utils/stripe'
 
-export const getProdects = async (limit: number) => {
+export const getProducts = async (limit: number) => {
     const products = await stripe.products.list({
         limit: limit || 10,
         expand:['data.default_price']
