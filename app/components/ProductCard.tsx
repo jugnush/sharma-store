@@ -28,7 +28,7 @@ const ProductCard: FC<ProductCardProps> = ({ item, index }) => {
             {item.description}
           </p>
         </div>
-        <div className='text-cyan-950 font-bold py-2'>
+        <div className='text-cyan-950 font-bold py-2'>eee
           {formatAmount(item.default_price.unit_amount)}
         </div>
       </div>

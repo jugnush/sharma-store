@@ -1,25 +1,29 @@
 import { CheckIcon } from '@heroicons/react/24/solid';
 import ShareBtn from '../../components/ShareBtn';
 import AddToCardBtn from '../../components/AddToCardBtn';
-import {getProdectById, getProducts} from '../../services';
+import {getProdectById} from '../../services';
 import {formatAmount} from '../../../utils/stripe';
 import Image from 'next/image';
+import { notFound } from 'next/navigation';
 
+// export const revalidate = 30;
+export const dynamicParams = true;
+// export const dynamic = 'force-dynamic';
+// incremental static regeneration
 
-export async function generateStaticParams() {
-    // const posts = await fetch('https://.../posts').then((res) => res.json())
-   
-    // return posts.map((post) => ({
-    //   slug: post.slug,
-    // }))
+// export async function generateStaticParams() {
+//     const products = await getProducts()
+//     const slugs = products.data.map(item=>({slug:item.id}))
+//     return slugs
+//   }
 
-    const products = await getProducts()
-    const slugs = products.data.map(item=>({slug:item.id}))
-    return slugs
-  }
+//on demand revalidation
 
 export async function generateMetadata({params:{slug}}){
     const product = await getProdectById(slug)
+    if(!product){
+        notFound()
+    }
     return{
         title:`Sharma Shop | ${product.name}`
     }
@@ -28,6 +32,16 @@ export async function generateMetadata({params:{slug}}){
 async function Product1({params:{slug}}) {
     const product = await getProdectById(slug)
     console.log('individual product page return', slug);
+
+    const clientProduct ={
+        name:product.name,
+        description:product.description,
+        id:product.id,
+        price:product.default_price.unit_amount,
+        // price_id:product.product.default_price.id,
+        currency:'INR',
+        image:product.images[0],
+    }
 
     return (
         <div className='mt-2 px-20 border:1px bg-slate-300'>
@@ -45,10 +59,11 @@ async function Product1({params:{slug}}) {
                         <ShareBtn />
                     </div>
                     <div className=' mt-4 border-t pt-4 border-cyan-400'>
+                    
                         <p className='text-gray-900'>Price</p>
                         <p className='font-semibold font-sans'>           {formatAmount(product.default_price.unit_amount)}</p>
                     </div>
-                    <AddToCardBtn />
+                    <AddToCardBtn product={clientProduct} />
                 </div>
 
             </div>
