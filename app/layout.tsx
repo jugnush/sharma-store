@@ -4,8 +4,7 @@ import "./globals.css";
 import NavBar from "./components/NavBar";
 // import { Inter } from "next/font/google";
 import { roboto } from "./fonts";
-
-
+import Provider from './components/Provider'
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -21,7 +20,7 @@ const geistMono = localFont({
 export const metadata: Metadata = {
   title: 'Sharma Shop for Desis',
   description: 'Sharma Shop for Desis indias best fation',
-  keywords:'tshirts'
+  keywords: 'tshirts'
 }
 
 export default function RootLayout({
@@ -33,8 +32,10 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${roboto.className} antialiased bg-gray-100`}>
-      <NavBar/>
-        {children}
+        <Provider>
+          <NavBar />
+          {children}
+        </Provider>
       </body>
     </html>
   );

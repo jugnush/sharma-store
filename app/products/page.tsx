@@ -2,6 +2,7 @@ import React, { FC } from 'react';
 import ProductCard from '../components/ProductCard';
 import { getProducts } from '../services';
 
+// export const revalidate = 30;
 interface ProductItem {
   // Define the structure of the product item based on your API response
   id: string;
@@ -13,7 +14,7 @@ interface ProductItem {
     unit_amount: number;
   };
 }
-
+    
 interface ProductsResponse {
   data: ProductItem[];
 }

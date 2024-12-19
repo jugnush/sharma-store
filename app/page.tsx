@@ -2,6 +2,8 @@ import Link from 'next/link';
 import ProductCard from './components/ProductCard';
 import { getProducts } from './services';
 
+
+// export const revalidate = 30;
 interface Product {
   // Define the properties of the product based on your data structure
   id: string;
