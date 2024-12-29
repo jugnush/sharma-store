@@ -3,7 +3,7 @@ import AddToCardBtn from './AddToCardBtn'
     
     function context() {
       return (
-        <AddToCardBtn />
+        <AddToCardBtn product={{}} />
       )
     }
     

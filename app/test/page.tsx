@@ -24,6 +24,12 @@
 // -----------usestate interwell------------
 import { useState } from "react";
 
+declare global {
+  interface Window {
+    aa: any;
+  }
+}
+
 export default function Page() {
 
   const [timer, setTimer] = useState(0);

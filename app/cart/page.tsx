@@ -29,7 +29,7 @@ const Page: FC = () => {
 //   }
   const cartCheckout = async () => {
     try {
-        const body = cartItems.map(item => {
+        const body = cartItems.map((item: { price_id: string, quantity: number }) => {
           console.log('cart page item', item);
             return {
                 price: item.price_id,
@@ -81,7 +81,7 @@ console.log('cartItems',cartItems.length)
         cartCount > 0 && (
           <div>
             {
-              cartItems.map((item, index) => {
+              cartItems.map((item: { id: string, image: string, name: string, quantity: number, price: number }, index: number) => {
                 console.log(item);
                 return (
                   <div className='bg-white border-spacing-1 p-4 my-2 flex justify-between border rounded hover:shadow-lg items-center'>
