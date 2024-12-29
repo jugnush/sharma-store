@@ -1,15 +1,66 @@
 'use client';
 import { useCart } from '@/utils/useCart';
+import toast, { Toaster } from 'react-hot-toast';
 import { TrashIcon } from '@heroicons/react/24/outline';
 import { MinusIcon, PlusIcon, XCircleIcon } from '@heroicons/react/24/solid';
 import Link from 'next/link';
-import React, { FC, use } from 'react';
+import React, { FC, use, useEffect } from 'react';
 import { formatAmount } from '@/utils/stripe';
+import { handleCheckout } from '../checkOutService';
+import router from 'next/router';
+import { useRouter } from 'next/navigation';
 
 const Page: FC = () => {
   const { cartCount, cartTotal, cartItems, incrementCartItems, decrementCartItems, deleteAllItems, deleteById } = useCart()
+  const router = useRouter();
   // const cartCount: number = 4;
+//   const cartCheckout = async () => {
+//       const body = cartItems.map((item: {
+//         default_price: any; price_id: string, quantity: number 
+// }) => {  
+//           return {
+//               price: item.price_id,
+//               quantity: item.quantity
+//           }
+//       }
+//       )
+//     const url = await handleCheckout(cartItems)
+//     console.log('cart page url', url);
+//   }
+  const cartCheckout = async () => {
+    try {
+        const body = cartItems.map(item => {
+          console.log('cart page item', item);
+            return {
+                price: item.price_id,
+                quantity: item.quantity
+            }
+        })
+        const url = await handleCheckout(body)
+        console.log('cart page url', url);
+        router.push(url)
+    } catch (err) {
+        console.log("err")
+        toast.error(`checkout failed`)
+    }
 
+}
+
+useEffect(() => {
+ const query = new URLSearchParams(window.location.search);
+ if (query.get('success')) {
+  // toast.success(`${product.name} item added to cart`)
+  toast.success('Order placed! You will receive an email confirmation.');
+  <Toaster />
+  deleteAllItems()
+ }  
+ if (query.get('canceled')) {
+  toast.error('Order canceled -- continue to shop around and checkout when you are ready.');
+  <Toaster />
+ }  
+} , [])
+
+console.log('cartItems',cartItems.length)
   return (
     <div className='m-5 px-20'>
       {cartCount > 0 ? (
@@ -66,7 +117,7 @@ const Page: FC = () => {
               <p className='text-xl'>
                 Total <span className='font-bold text-green-600'>${cartTotal}</span>
               </p>
-              <button className='bg-orange-500 mt-4 py-2 px-6 text-white rounded-md hover:bg-red-600'>
+              <button className='bg-orange-500 mt-4 py-2 px-6 text-white rounded-md hover:bg-red-600' onClick={cartCheckout}>
                 Checkout
               </button>
             </div>

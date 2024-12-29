@@ -22,8 +22,11 @@ interface ProductsResponse {
 const Product: FC = async () => {
   console.log('product listing page return');
   const products: ProductsResponse = await getProducts(5);
+  console.log('product listing page return', products);
   return (
+    console.log('product listing page return', products),
     <div className='my-4 mx-12 gap-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4'>
+      
       {products.data.map((item: ProductItem, index) => <ProductCard key={item.id} item={item} index={index}/>)}
     </div>
   );

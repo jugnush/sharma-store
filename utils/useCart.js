@@ -33,7 +33,7 @@ export const useCart = () => {
 const calculateTotal = ()=>{
   let amt = 0;
   cartItems.forEach(item=>{
-    amt += item.price * item.quantity
+    amt += (item.price / 100) * item.quantity 
   })
   setCartTotal(amt);
 }

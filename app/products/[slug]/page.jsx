@@ -38,7 +38,7 @@ async function Product1({params:{slug}}) {
         description:product.description,
         id:product.id,
         price:product.default_price.unit_amount,
-        // price_id:product.product.default_price.id,
+        price_id:product.default_price.id,
         currency:'INR',
         image:product.images[0],
     }
